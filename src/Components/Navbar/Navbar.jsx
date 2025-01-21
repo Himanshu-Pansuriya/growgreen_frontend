@@ -1,4 +1,5 @@
-import logo from "../img/logo.png";
+import { Link } from "react-router-dom";
+import logo from "../../assets/img/GrowGreen.png"
 function Navbar() {
   return (
     <>
@@ -6,7 +7,7 @@ function Navbar() {
         <div class="container">
           <nav class="navbar navbar-expand-lg bg-navbar-light py-2 py-lg-0">
             <a href="index.html" className="navbar-brand">
-              <img className="img-fluid" src={logo} alt="Logo" />
+              <img className="img-fluid" src={logo} alt="Logo" style={{borderRadius : "0px 0px 30px 30px"}}/>
             </a>
             <button
               type="button"
@@ -18,48 +19,47 @@ function Navbar() {
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
               <div class="navbar-nav ms-auto">
-                <a href="index.html" class="nav-item nav-link active">
+                <Link to={"/home"} class="nav-item nav-link active">
                   Home
-                </a>
-                <a href="about.html" class="nav-item nav-link">
+                </Link>
+                <Link to={"/about"} class="nav-item nav-link">
                   About
-                </a>
-                <a href="product.html" class="nav-item nav-link">
-                  Products
-                </a>
-                <a href="store.html" class="nav-item nav-link">
-                  Store
-                </a>
+                </Link>
+                <Link to={"/pesticides"} class="nav-item nav-link">
+                  Pesticides
+                </Link>
+                <Link to={"/home"} class="nav-item nav-link">
+                  Home
+                </Link>
                 <div class="nav-item dropdown">
-                  <a
-                    href="#"
+                  <Link
                     class="nav-link dropdown-toggle"
                     data-bs-toggle="dropdown"
                   >
                     Pages
-                  </a>
+                  </Link>
                   <div class="dropdown-menu bg-light rounded-0 m-0">
-                    <a href="feature.html" class="dropdown-item">
+                    <Link to={"/home"} class="dropdown-item">
                       Features
-                    </a>
-                    <a href="blog.html" class="dropdown-item">
-                      Blog Article
-                    </a>
-                    <a href="testimonial.html" class="dropdown-item">
-                      Testimonial
-                    </a>
-                    <a href="404.html" class="dropdown-item">
-                      404 Page
-                    </a>
+                    </Link>
+                    <Link to={"/home"} class="dropdown-item">
+                      Features
+                    </Link>
+                    <Link to={"/home"} class="dropdown-item">
+                      Features
+                    </Link>
+                    <Link to={"/home"} class="dropdown-item">
+                      Features
+                    </Link>
                   </div>
                 </div>
-                <a href="contact.html" class="nav-item nav-link">
-                  Contact
-                </a>
+                <Link to={"/home"} class="nav-item nav-link">
+                  Home
+                </Link>
               </div>
               <div class="border-start ps-4 d-none d-lg-block">
                 <button type="button" class="btn btn-sm p-0">
-                  <i class="fa fa-search"></i>
+                  <i class="fa fa-login"></i>
                 </button>
               </div>
             </div>
