@@ -1,0 +1,213 @@
+/* CSS Variables for easier customization */
+:root {
+    --primary-color: #3498db;
+    --accent-color: #e74c3c;
+    --text-color: #333;
+    --subtext-color: #555;
+    --bg-color: #f9f9f9;
+    --white: #fff;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1);
+    --font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Fade-in animation for the container */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Main container for the product */
+  .product-container {
+    display: flex;
+    gap: 20px;
+    padding: 40px;
+    background-color: var(--bg-color);
+    max-width: 1250px;
+    margin: 30px auto;
+    border-radius: 8px;
+    font-family: var(--font-family);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.8s ease-out;
+  }
+  
+  /* Product image box styling */
+  .product-image {
+    width: 45%;
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-image:hover {
+    transform: scale(1.03);
+  }
+  
+  .product-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  /* Product details container */
+  .product-details {
+    width: 50%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Product title and pricing */
+  .product-name {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-color);
+  }
+  
+  .price {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  .current-price {
+    color: var(--accent-color);
+  }
+  
+  .old-price {
+    margin-left: 10px;
+    text-decoration: line-through;
+    color: #888;
+  }
+  
+  /* Section title styling */
+  .section-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+  
+  /* Detailed description styling */
+  .detailed-description {
+    font-size: 1.1rem;
+    color: var(--subtext-color);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  /* Product info styling */
+  .product-info p {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: var(--text-color);
+  }
+  
+  .stock-alert {
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+  
+  .offer {
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  
+  .discount {
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+  
+  /* BUY NOW button styling with gradient */
+  .select-size-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, var(--primary-color), #2c80b4);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background 0.3s ease;
+  }
+  
+  .select-size-btn:hover {
+    background: linear-gradient(135deg, #2c80b4, var(--primary-color));
+  }
+  
+  /* Loading state styling */
+  .loading {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 30px;
+    color: var(--primary-color);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .product-container {
+      flex-direction: column;
+      padding: 20px;
+    }
+    
+    .product-image,
+    .product-details {
+      width: 100%;
+    }
+    
+    .product-details {
+      padding: 20px;
+    }
+  }
+/* Quantity Selector Styles */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .quantity-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    font-size: 1.3rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .quantity-btn:hover {
+    background-color: #2c80b4;
+  }
+  
+  .quantity {
+    margin: 0 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  
+  .total-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+  }
+    

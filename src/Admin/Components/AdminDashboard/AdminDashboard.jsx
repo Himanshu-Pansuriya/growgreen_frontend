@@ -1,61 +1,95 @@
 import React from "react";
-import icon from '../../../assets/img/GrowGreen.png'
+import icon from "../../../assets/img/GrowGreen.png";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { FaSeedling, FaTractor, FaUserCircle } from "react-icons/fa";
-import { MdContacts } from "react-icons/md";
-import { IoLogOut } from "react-icons/io5";
-import "./AdminDashboard.css"; 
+import {
+  AiFillAppstore,
+  AiFillDollarCircle,
+  AiFillFileText,
+  AiFillQuestionCircle,
+  AiOutlineLogout,
+} from "react-icons/ai";
+import { GiFarmTractor, GiFruitBowl } from "react-icons/gi";
+import { FiPhoneCall } from "react-icons/fi";
+import { FaUsers } from "react-icons/fa";
+import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken"); // Clear token
+    localStorage.removeItem("role");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userID");
+    window.location.href = "/"; // Redirect to login page
+  };
+
   return (
-    <div className="container-fluid">
+    <div className="container-fluid admin-dashboard">
       <div className="row">
-        <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+        {/* Sidebar */}
+        <nav className="col-md-2 col-lg-3 bg-dark text-white sidebar">
           <div className="sidebar-sticky">
             <ul className="nav flex-column">
               <li className="nav-item text-center my-4">
                 <img
-                  className="img-fluid"
+                  className="img-fluid dashboard-logo"
                   src={icon}
                   alt="Icon"
                   onClick={() => navigate("/admin")}
-                  style={{ width: "100px", height: "100px" }}
+                  style={{ width: "130px", height: "130px", cursor: "pointer" }}
                 />
               </li>
+
               <li className="nav-item">
-                <Link to="/admin/login" className="nav-link">
-                  <FaSeedling className="mr-2" /> Users
+                <Link to="/admin/login" className="nav-link text-white">
+                  <FaUsers className="icon me-3" /> <span>Users</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/admin/pesticides" className="nav-link">
-                  <FaTractor className="mr-2" /> Pesticides
+                <Link to="/admin/pesticides" className="nav-link text-white">
+                  <GiFarmTractor className="icon me-3" /> <span>Pesticides</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/admin/contact" className="nav-link">
-                  <MdContacts className="mr-2" /> Contacts
+                <Link to="/admin/contact" className="nav-link text-white">
+                  <FiPhoneCall className="icon me-3" /> <span>Contacts</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/admin/crop" className="nav-link">
-                  <FaUserCircle className="mr-2" /> Crop
+                <Link to="/admin/crop" className="nav-link text-white">
+                  <GiFruitBowl className="icon me-3" /> <span>Crops</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/logout" className="nav-link">
-                  <IoLogOut className="mr-2" /> Logout
+                <Link to="/admin/blog" className="nav-link text-white">
+                  <AiFillFileText className="icon me-3" /> <span>Blogs</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/admin/faqs" className="nav-link text-white">
+                  <AiFillQuestionCircle className="icon me-3" /> <span>FAQs</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/admin/transactions" className="nav-link text-white">
+                  <AiFillDollarCircle className="icon me-3" /> <span>Transactions</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link onClick={handleLogout} className="nav-link text-white">
+                  <AiOutlineLogout className="icon me-3" /> <span>Logout</span>
                 </Link>
               </li>
             </ul>
           </div>
         </nav>
-        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4 main-content">
-          
+
+        {/* Main Content */}
+        <main role="main" className="col-md-10 col-lg-9 ml-sm-auto px-4 main-content">
           <div className="dashboard-content">
             <div className="table-container">
-              <Outlet /> 
+              <Outlet />
             </div>
           </div>
         </main>

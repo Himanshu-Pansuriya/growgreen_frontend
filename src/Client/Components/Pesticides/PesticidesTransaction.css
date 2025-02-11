@@ -1,0 +1,122 @@
+:root {
+    --primary-color: #3498db;
+    --accent-color: #e74c3c;
+    --white: #fff;
+    --font-family: 'Poppins', sans-serif;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .transaction-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    font-family: var(--font-family);
+    text-align: center;
+  }
+  
+  .transaction-container h1 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+  }
+  
+  .transaction-details p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  .error {
+    color: var(--accent-color);
+    margin: 20px 0;
+  }
+  
+  .pay-btn {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, var(--primary-color), #2c80b4);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .pay-btn:hover {
+    background: linear-gradient(135deg, #2c80b4, var(--primary-color));
+  }
+  
+  .pay-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .transaction-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .transaction-details p {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+  
+  .payment-method, .upi-input, .card-input {
+    margin: 20px 0;
+  }
+  
+  .label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .dropdown, .input-field {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .pay-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .pay-btn:disabled {
+    background-color: #9e9e9e;
+    cursor: not-allowed;
+  }
+  
+  .pay-btn:hover:not(:disabled) {
+    background-color: #45a049;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.9rem;
+    margin: 10px 0;
+  }
+  

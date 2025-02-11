@@ -1,0 +1,127 @@
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+    background-color: dimgrey;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+}
+
+.custom-table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Light gray for odd rows */
+}
+
+.custom-table tbody tr:nth-child(even) {
+    background-color: #ffffff; /* White for even rows */
+}
+
+.custom-table tbody tr:hover {
+    background-color: #e0f7fa; /* Light blue on hover */
+}
+
+/* Existing table cell styling */
+.custom-table tbody td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.btn-xs {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+h1 {
+    color: black;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.addbutton{
+    display: flex;
+    float: right;
+    justify-content: flex-end;
+    text-align: right;
+    margin-bottom: 20px;
+}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+.search {
+  position: relative;
+  box-shadow: 0 0 40px rgba(51, 51, 51, 0.1);
+}
+.search-blog {
+  width: 70%;
+}
+
+.search input {
+  height: 60px;
+  text-indent: 25px;
+  border: 2px solid #d6d4d4;
+}
+
+.search input:focus {
+  box-shadow: none;
+  border: 2px solid blue;
+}
+
+.search .fa-search {
+  position: absolute;
+  top: 20px;
+  left: 16px;
+}
+
+.search button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 50px;
+  width: 110px;
+  
+}
+
+.blogs-heading {
+  text-align: center; /* Centers the text */
+  font-size: 2.5rem; /* Adjusts font size */
+  font-weight: bold; /* Makes the text bold */
+  color: #2f855a; /* Dark green color */
+  text-decoration: underline; /* Adds underline */
+  text-underline-offset: 4px; /* Adjusts underline spacing */
+  text-decoration-style: dashed; /* Makes the underline dashed */
+  text-decoration-color: #077b38; /* Lighter green for underline */
+  margin-bottom: 1rem; /* Adds space below the heading */
+  font-family: 'Poppins', sans-serif; /* Adds a clean, modern font */
+}
+
+/* Override padding for the Actions column to let the border appear at the cell edge */
+.actions-cell {
+  padding: 0;  /* Remove the default 10px padding for this cell */
+  border: 1px solid #ddd;  /* Retain the border from the parent rule */
+  box-sizing: border-box;
+}
+
+/* Inner container for the buttons inside the Actions cell */
+.button-container {
+  width: 100%;
+  padding: 10px;  /* Provide inner padding so buttons don't touch the border */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Optional: Ensure buttons have consistent sizing */
+.button-container .btn {
+  padding: 4px 8px;
+  font-size: 0.9rem;
+}
+
+
+

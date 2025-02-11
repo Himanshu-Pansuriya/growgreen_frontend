@@ -1,0 +1,88 @@
+.faqs-container {
+    max-width: 1200px; /* Utilize the full width of the page */
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10 px;
+    font-family: "Roboto", Arial, sans-serif;
+    /* background: linear-gradient(120deg, #fdfbfb, #ebedee); */
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .faqs-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    color: #070707b6;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .faqs-list {
+    border-top: 2px solid #bdc3c7;
+    margin: 20px 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden; /* Ensure the FAQ items stay within the rounded corners */
+  }
+  
+  .faq-item {
+    border-bottom: 1px solid #bdc3c7;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    background: #ffffff; /* Add a clean background color */
+    margin-bottom: 15px; /* Add space between questions */
+    border-radius: 8px; /* Optional: Add rounded corners for a modern look */
+    border: 2px solid #657383; /* Border color */
+}
+  
+  .faq-item:hover {
+    background-color: #f1f2f6; /* Add a light hover effect */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
+  
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #34495e;
+    transition: color 0.3s ease;
+  }
+  
+  .faq-toggle {
+    margin-left: 10px;
+    color: #7f8c8d;
+    transition: color 0.3s ease;
+  }
+  
+  .faq-answer {
+    padding: 20px;
+    background-color: #ffffff;
+    font-size: 1.4rem; /* Increased font size for answers */
+    line-height: 1.8; /* Improved line spacing for readability */
+    color: #555;
+    overflow: hidden; /* Hide content initially */
+    transition: all 0.4s ease; /* Smoothly transition height and padding */
+    height: 0; /* Initially set height to 0 */
+}
+
+.faq-item.active .faq-answer {
+    height: auto; /* Allow content to adjust dynamically based on length */
+    padding: 20px; /* Maintain padding when expanded */
+}
+
+  
+  .faq-answer a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .faq-answer a:hover {
+    text-decoration: underline;
+  }
+  

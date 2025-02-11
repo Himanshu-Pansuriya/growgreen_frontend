@@ -1,0 +1,66 @@
+.crops-card {
+  height: 450px; /* Fixed height for the card */
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body {
+  flex-grow: 1; /* Ensures body takes up remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title-crop {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: darkgreen;
+}
+
+.card-text-price {
+  font-weight: bold;
+  color: black;
+  font-size: larger;
+}
+
+.heading {
+  margin-bottom: 30px;
+  font-weight: bold; /* Makes the heading bold */
+  text-decoration: underline;
+  color: rgb(92, 23, 11);
+  font-family: cursive; /* Underlines the heading */
+}
+
+.card-text-description {
+  flex-grow: 1;
+  min-height: 80px;
+  overflow: hidden;
+  color: black; /* Sets the description text color to black */
+}
+/* Add border and styling for crops card */
+.card {
+  border: 2px solid #4a6a65; /* Blue border color, change as needed */
+  border-radius: 8px;         /* Optional: Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Light shadow */
+  overflow: hidden;
+  transition: all 0.3s ease; /* Optional: Smooth transition on hover */
+}
+
+/* Add hover effect for the card */
+.card:hover {
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+  transform: translateY(-5px); /* Lift effect */
+}
+
+/* Ensure the image fits within the card */
+.crops-img {
+  object-fit: contain;
+  height: 200px;
+  width: 100%;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+

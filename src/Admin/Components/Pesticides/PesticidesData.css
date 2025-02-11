@@ -26,7 +26,7 @@
 
 .custom-table tbody td {
     padding: 10px;
-    text-align: center;
+    text-align: left;
     border: 1px solid #ddd;
 }
 
@@ -40,4 +40,58 @@ h1 {
     color: black;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.addbutton{
+    display: flex;
+    float: right;
+    justify-content: flex-end;
+    text-align: right;
+    margin-bottom: 20px;
+}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+.search {
+  position: relative;
+  box-shadow: 0 0 40px rgba(51, 51, 51, 0.1);
+}
+
+.search input {
+  height: 60px;
+  text-indent: 25px;
+  border: 2px solid #d6d4d4;
+}
+
+.search input:focus {
+  box-shadow: none;
+  border: 2px solid blue;
+}
+
+.search .fa-search {
+  position: absolute;
+  top: 20px;
+  left: 16px;
+}
+
+.search button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 50px;
+  width: 110px;
+  
+}
+
+.pesticides-heading {
+  text-align: center; /* Centers the text */
+  font-size: 2.5rem; /* Adjusts font size */
+  font-weight: bold; /* Makes the text bold */
+  color: #2f855a; /* Dark green color */
+  text-decoration: underline; /* Adds underline */
+  text-underline-offset: 4px; /* Adjusts underline spacing */
+  text-decoration-style: dashed; /* Makes the underline dashed */
+  text-decoration-color: #077b38; /* Lighter green for underline */
+  margin-bottom: 1rem; /* Adds space below the heading */
+  font-family: 'Poppins', sans-serif; /* Adds a clean, modern font */
 }

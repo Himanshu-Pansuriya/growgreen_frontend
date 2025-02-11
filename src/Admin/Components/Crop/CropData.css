@@ -1,0 +1,12 @@
+.crops-heading {
+    text-align: center; /* Centers the text */
+    font-size: 2.5rem; /* Adjusts font size */
+    font-weight: bold; /* Makes the text bold */
+    color: #2f855a; /* Dark green color */
+    text-decoration: underline; /* Adds underline */
+    text-underline-offset: 4px; /* Adjusts underline spacing */
+    text-decoration-style: dashed; /* Makes the underline dashed */
+    text-decoration-color: #077b38; /* Lighter green for underline */
+    margin-bottom: 1rem; /* Adds space below the heading */
+    font-family: 'Poppins', sans-serif; /* Adds a clean, modern font */
+  }

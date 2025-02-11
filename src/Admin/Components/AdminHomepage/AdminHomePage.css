@@ -1,0 +1,15 @@
+.dashboard-card {
+    min-height: 320px; /* Uniform height for all cards */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; /* Prevent card content overflow */
+  }
+  
+  .dashboard-card table td {
+    max-width: 150px; /* Set a maximum width for table cells */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Add ellipsis for cropped content */
+    white-space: nowrap; /* Prevent wrapping */
+  }
+  

@@ -1,0 +1,58 @@
+.pesticide-card {
+  height: 450px; /* Fixed height for the card */
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #007bff; /* Border color */
+  border-radius: 8px;         /* Optional: Rounded corners */
+  transition: all 0.3s ease;  /* Smooth transition for hover effects */
+}
+
+.pesticide-card:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.pesticide-img {
+  object-fit: cover; /* Ensures the image scales proportionally */
+  height: 200px; /* Fixed height for the image */
+  width: 100%; /* Ensures image width fills the container */
+}
+
+.card-body {
+  flex-grow: 1; /* Ensures body takes up remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  margin-bottom: 10px;
+  text-decoration: underline;
+  font-weight: bold;
+  color: darkgreen;
+}
+
+.card-text-price {
+  font-weight: bold;
+  color: black;
+  font-size: larger;
+}
+
+.heading {
+  margin-bottom: 30px;
+  font-weight: bold; /* Makes the heading bold */
+  text-decoration: underline;
+  color: rgb(92, 23, 11);
+  font-family: cursive; /* Underlines the heading */
+}
+
+.card-text-price {
+  font-weight: bold; /* Bold text for the price */
+  color: black; /* Sets color to black */
+  font-size: larger; /* Increases font size */
+}
+
+.card-text-description {
+  height: 60px; /* Set a fixed height for the description */
+  overflow: hidden; /* Hide overflow content */
+}
