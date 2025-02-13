@@ -6,8 +6,8 @@ import { getCurrenttoken, getCurrentUserID } from "../LoginPage/LoginPage";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 function CropsForm() {
-  const { id } = useParams(); // Extract the id from the route
-  const navigate = useNavigate(); // For navigation after success
+  const { id } = useParams();
+  const navigate = useNavigate();
   const token = getCurrenttoken();
 
   const [formData, setFormData] = useState({
@@ -23,13 +23,17 @@ function CropsForm() {
     imageFile: null,
   });
 
+  const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
 
-  // Fetch data for editing if id exists
   useEffect(() => {
     if (id) {
       setIsLoading(true);
-      fetch(`http://localhost:5045/api/Crop/${id}`,{method:'GET',headers:{Authorization: `Bearer ${token}`,}})
+      fetch(`http://localhost:5045/api/Crop/${id}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      })
         .then((response) => response.json())
         .then((data) => {
           setFormData({
@@ -41,7 +45,7 @@ function CropsForm() {
             status: data.status,
             contactNo: data.contactNo,
             address: data.address,
-            imageFile: null, // Image file is not preloaded for security
+            imageFile: null,
           });
         })
         .catch((error) => {
@@ -55,14 +59,43 @@ function CropsForm() {
   const handleChange = (e) => {
     const { id, value, type, files } = e.target;
     if (type === "file" && files.length > 0) {
-      setFormData((prevState) => ({ ...prevState, [id]: files[0] }));
+      const selectedFile = files[0];
+      setFormData((prevState) => ({ ...prevState, [id]: selectedFile }));
+  
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setPreviewImage(imageUrl);
     } else {
       setFormData((prevState) => ({ ...prevState, [id]: value }));
     }
+    setErrors((prevState) => ({ ...prevState, [id]: "" })); // Clear error on change
+  };
+  
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.cropName.trim()) newErrors.cropName = "Crop Name is required.";
+    if (!formData.cropType.trim()) newErrors.cropType = "Crop Type is required.";
+    if (!formData.quantity || formData.quantity <= 0)
+      newErrors.quantity = "Quantity must be greater than 0.";
+    if (!formData.pricePer20KG || formData.pricePer20KG <= 0)
+      newErrors.pricePer20KG = "Price must be greater than 0.";
+    if (!formData.description.trim())
+      newErrors.description = "Description is required.";
+    if (!formData.contactNo.trim())
+      newErrors.contactNo = "Contact Number is required.";
+    if (!/^\d{10}$/.test(formData.contactNo))
+      newErrors.contactNo = "Contact Number must be 10 digits.";
+    if (!formData.address.trim()) newErrors.address = "Address is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     const formDataToSend = new FormData();
     formDataToSend.append("CropID", id || 0);
@@ -83,44 +116,36 @@ function CropsForm() {
     try {
       const response = await fetch(
         id
-          ? `http://localhost:5045/api/Crop/${id}` // Update endpoint
-          : "http://localhost:5045/api/Crop", // Add endpoint
+          ? `http://localhost:5045/api/Crop/${id}`
+          : "http://localhost:5045/api/Crop",
         {
           method: id ? "PUT" : "POST",
-          headers:{
-            Authorization: `Bearer ${token}`,
-          },// Use PUT for edit and POST for add
-          body: formDataToSend
+          headers: { Authorization: `Bearer ${token}` },
+          body: formDataToSend,
         }
       );
-      for (let pair of formDataToSend.entries()) {
-        console.log(pair[0], pair[1]);
-      }
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData);
-        
-        Swal.fire("Error", `Failed to submit crop data: ${errorData.message || "Unknown error"}`, "error");
+        Swal.fire(
+          "Error",
+          `Failed to submit crop data: ${errorData.message || "Unknown error"}`,
+          "error"
+        );
         return;
-      }      
-      if (response.ok) {
-        console.log(response);
-        if (id) {
-          Swal.fire("Success", "Crop updated successfully!", "success");
-        } else {
-          Swal.fire("Success", "Crop added successfully!", "success");
-        }
-        navigate("/crop");
-      } else {
-        Swal.fire("Error", "Failed to submit crop data", "error");
       }
+      Swal.fire(
+        "Success",
+        id ? "Crop updated successfully!" : "Crop added successfully!",
+        "success"
+      );
+      navigate("/crop");
     } catch (error) {
       alert("Error: " + error.message);
     }
   };
 
   if (isLoading) {
-    return <LoadingSpinner/>
+    return <LoadingSpinner />;
   }
 
   return (
@@ -141,8 +166,8 @@ function CropsForm() {
             type="text"
             value={formData.cropName}
             onChange={handleChange}
-            required
           />
+          {errors.cropName && <p className="error-message text-danger">{errors.cropName}</p>}
         </div>
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="cropType">
@@ -154,8 +179,8 @@ function CropsForm() {
             type="text"
             value={formData.cropType}
             onChange={handleChange}
-            required
           />
+          {errors.cropType && <p className="error-message text-danger">{errors.cropType}</p>}
         </div>
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="quantity">
@@ -167,8 +192,8 @@ function CropsForm() {
             type="number"
             value={formData.quantity}
             onChange={handleChange}
-            required
           />
+          {errors.quantity && <p className="error-message text-danger">{errors.quantity}</p>}
         </div>
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="pricePer20KG">
@@ -180,8 +205,10 @@ function CropsForm() {
             type="number"
             value={formData.pricePer20KG}
             onChange={handleChange}
-            required
           />
+          {errors.pricePer20KG && (
+            <p className="error-message text-danger">{errors.pricePer20KG}</p>
+          )}
         </div>
         <div className="form-field col-lg-12">
           <label className="label" htmlFor="description">
@@ -193,8 +220,10 @@ function CropsForm() {
             type="text"
             value={formData.description}
             onChange={handleChange}
-            required
           />
+          {errors.description && (
+            <p className="error-message text-danger">{errors.description}</p>
+          )}
         </div>
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="status">
@@ -220,8 +249,10 @@ function CropsForm() {
             type="text"
             value={formData.contactNo}
             onChange={handleChange}
-            required
           />
+          {errors.contactNo && (
+            <p className="error-message text-danger">{errors.contactNo}</p>
+          )}
         </div>
         <div className="form-field col-lg-12">
           <label className="label" htmlFor="address">
@@ -233,10 +264,10 @@ function CropsForm() {
             type="text"
             value={formData.address}
             onChange={handleChange}
-            required
           />
+          {errors.address && <p className="error-message text-danger">{errors.address}</p>}
         </div>
-        <div className="form-field col-lg-12">
+        <div className="form-field col-lg-4">
           <label className="label" htmlFor="imageFile">
             Image
           </label>
@@ -248,11 +279,30 @@ function CropsForm() {
             onChange={handleChange}
           />
         </div>
+        <div className="form-field col-lg-2">   
+        {previewImage && (
+            <img
+            src={previewImage}
+            alt="Preview"
+            className="image-preview"
+            style={{ maxHeight: "80px", marginTop: "10px",maxWidth:"80px" }}
+          />          
+          )}
+          </div>
+          <div className="row">
         <div className="form-field col-lg-6">
           <input className="submit-btn" type="submit" value="Submit" />
         </div>
         <div className="form-field col-lg-6">
-          <input className="cancel-btn" onClick={()=>{navigate("/crop")}} type="button" value="Back" />
+          <input
+            className="cancel-btn"
+            onClick={() => {
+              navigate("/crop");
+            }}
+            type="button"
+            value="Back"
+          />
+        </div>
         </div>
       </form>
     </section>

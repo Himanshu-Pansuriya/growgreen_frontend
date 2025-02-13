@@ -16,7 +16,7 @@ function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Clear token
+    localStorage.removeItem("token"); // Clear token
     localStorage.removeItem("role");
     localStorage.removeItem("userName");
     localStorage.removeItem("userID");

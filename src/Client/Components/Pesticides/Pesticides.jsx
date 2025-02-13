@@ -14,27 +14,34 @@ function Pesticides() {
   const token = getCurrenttoken();
 
   useEffect(() => {
+    if (!token) {
+      Swal.fire("Unauthorized", "Please log in to continue.", "warning");
+      navigate("/login");
+      return;
+    }
+
     const fetchPesticides = async () => {
       try {
-        const response = await fetch("http://localhost:5045/api/Pesticide",{method:'GET',headers:{Authorization: `Bearer ${token}`,}});
+        const response = await fetch("http://localhost:5045/api/Pesticide", {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch pesticides data");
         }
         const data = await response.json();
-
-        // Artificial delay to ensure skeleton is visible for at least 1 second
         setTimeout(() => {
           setPesticides(data);
           setLoading(false);
         }, 1000);
       } catch (error) {
         Swal.fire("Error", error.message, "error");
-        setLoading(false); // Stop skeleton even if error occurs
+        setLoading(false);
       }
     };
 
     fetchPesticides();
-  }, []);
+  }, [token, navigate]);
 
   const handleBuyNow = (id) => {
     navigate(`/pesticidesDescription/${id}`);
@@ -45,8 +52,7 @@ function Pesticides() {
       <div className="container">
         <h1 className="text-center heading">Pesticides</h1>
         <div className="row g-0 gx-5 align-items-end">
-          {loading ? (
-            // Skeleton Loader
+          {loading &&
             Array.from({ length: 6 }).map((_, index) => (
               <div className="col-4" key={index}>
                 <div className="card">
@@ -70,8 +76,9 @@ function Pesticides() {
                   </div>
                 </div>
               </div>
-            ))
-          ) : pesticides.length > 0 ? (
+            ))}
+          {!loading &&
+            pesticides.length > 0 &&
             pesticides.map((pesticide, index) => (
               <div className="col-4 mt-3" key={index}>
                 <div className="card">
@@ -79,11 +86,7 @@ function Pesticides() {
                     src={pesticide.imageUrl}
                     className="card-img-top img-fluid"
                     alt={pesticide.pesticidesName || "Pesticide"}
-                    style={{
-                      objectFit: "contain",
-                      height: "200px",
-                      width: "100%",
-                    }}
+                    style={{ objectFit: "contain", height: "200px", width: "100%" }}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{pesticide.pesticidesName}</h5>
@@ -91,9 +94,7 @@ function Pesticides() {
                     <p className="card-text-description">
                       Description: {pesticide.description}
                     </p>
-                    <p className="text-danger">
-                      Only {pesticide.stock} are left
-                    </p>
+                    <p className="text-danger">Only {pesticide.stock} are left</p>
                     <Button
                       variant="primary"
                       onClick={() => handleBuyNow(pesticide.pesticideID)}
@@ -103,8 +104,8 @@ function Pesticides() {
                   </div>
                 </div>
               </div>
-            ))
-          ) : (
+            ))}
+          {!loading && pesticides.length === 0 && (
             <div className="col-12">
               <p>No pesticides available.</p>
             </div>

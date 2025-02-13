@@ -10,13 +10,15 @@ function FAQsPage() {
   const [error, setError] = useState(null);
   const token = getCurrenttoken();
 
-  // Toggle the active FAQ item
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
   useEffect(() => {
-    // Replace the URL below with your actual FAQs API endpoint.
+    let isMounted = true;
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     const fetchFAQs = async () => {
       try {
         const response = await fetch("http://localhost:5045/api/FAQ", {
@@ -24,23 +26,33 @@ function FAQsPage() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          signal,
         });
         if (!response.ok) {
           throw new Error("Failed to fetch FAQs");
         }
         const data = await response.json();
-        setFaqsData(data);
+        if (isMounted) {
+          setFaqsData(data);
+          setLoading(false);
+        }
       } catch (error) {
-        console.error("Error fetching FAQs:", error);
-        setError(error.message);
-        Swal.fire("Error", error.message, "error");
-      } finally {
-        setLoading(false);
+        if (error.name !== "AbortError" && isMounted) {
+          console.error("Error fetching FAQs:", error);
+          setError(error.message);
+          Swal.fire("Error", error.message, "error");
+          setLoading(false);
+        }
       }
     };
 
     fetchFAQs();
-  }, []);
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, [token]);
 
   if (loading) {
     return <p>Loading FAQs...</p>;
@@ -56,7 +68,7 @@ function FAQsPage() {
       <div className="faqs-list">
         {faqsData.map((faq, index) => (
           <div
-            key={index}
+            key={faq.id}
             className={`faq-item ${activeIndex === index ? "active" : ""}`}
           >
             <div className="faq-question" onClick={() => toggleFAQ(index)}>
@@ -65,12 +77,9 @@ function FAQsPage() {
                 {activeIndex === index ? "-" : "+"}
               </span>
             </div>
-            <div
-              className="faq-answer"
-              style={{ display: activeIndex === index ? "block" : "none" }}
-            >
-              {faq.answer}
-            </div>
+            {activeIndex === index && (
+              <div className="faq-answer">{faq.answer}</div>
+            )}
           </div>
         ))}
       </div>

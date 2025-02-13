@@ -10,15 +10,38 @@ function ContactForm() {
   const [contact, setContact] = useState({
     contactID: 0,
     userID: 8,
-    userName: 'adfadsf',
-    name:'',
+    userName: 'Himanshu',
+    name: '',
     mobileNo: '',
     email: '',
     description: ''
   });
 
+  const [errors, setErrors] = useState({
+    mobileNo: '',
+    email: ''
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Validate inputs on change
+    if (name === 'mobileNo') {
+      const isValidNumber = /^[0-9]{10}$/.test(value);
+      setErrors({
+        ...errors,
+        mobileNo: isValidNumber ? '' : 'Mobile number must be 10 digits'
+      });
+    }
+
+    if (name === 'email') {
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      setErrors({
+        ...errors,
+        email: isValidEmail ? '' : 'Invalid email address'
+      });
+    }
+
     setContact({
       ...contact,
       [name]: value
@@ -27,6 +50,13 @@ function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Final validation before submission
+    if (errors.mobileNo || errors.email) {
+      Swal.fire("Error", "Please fix the validation errors", "error");
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:5045/api/Contact', {
         method: 'POST',
@@ -36,21 +66,18 @@ function ContactForm() {
         },
         body: JSON.stringify(contact)
       });
-      console.log(response);
+
       if (response.ok) {
         const data = await response.json();
         Swal.fire("Success", "Contact added successfully!", "success");
         console.log('Contact added:', data);
-        // Handle successful response
-          } else {
+      } else {
         Swal.fire("Error", "Failed to add contact", "error");
         console.error('Failed to add contact');
-        // Handle error response
-          }
-        } catch (error) {
-          Swal.fire("Error", "An error occurred while adding contact", "error");
-          console.error('Error:', error);
-          // Handle network error
+      }
+    } catch (error) {
+      Swal.fire("Error", "An error occurred while adding contact", "error");
+      console.error('Error:', error);
     }
   };
 
@@ -81,6 +108,7 @@ function ContactForm() {
             onChange={handleChange}
             required
           />
+          {errors.mobileNo && <p className="error">{errors.mobileNo}</p>}
         </div>
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="email">Email</label>
@@ -93,6 +121,7 @@ function ContactForm() {
             onChange={handleChange}
             required
           />
+          {errors.email && <p className="error">{errors.email}</p>}
         </div>
         <div className="form-field col-lg-12">
           <label className="label" htmlFor="description">Description</label>
@@ -109,7 +138,7 @@ function ContactForm() {
           <input className="submit-btn" type="submit" value="Submit" />
         </div>
         <div className="form-field col-lg-6">
-          <input className="cancel-btn" onClick={()=>{navigate("/home")}} type="button" value="Back" />
+          <input className="cancel-btn" onClick={() => { navigate("/home"); }} type="button" value="Back" />
         </div>
       </form>
     </section>

@@ -12,24 +12,39 @@ function MyCrops() {
   const token = getCurrenttoken();
 
   useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
     const fetchCrops = async () => {
       try {
-        const response = await fetch("http://localhost:5045/api/Crop",
-          {method:'GET',headers:{
+        const response = await fetch("http://localhost:5045/api/Crop", {
+          method: 'GET',
+          headers: {
             Authorization: `Bearer ${token}`,
-          }}
-        );
+          },
+          signal: controller.signal
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch crops data");
         }
         const data = await response.json();
-        setCrops(data);
+        if (isMounted) {
+          setCrops(data);
+        }
       } catch (error) {
-        Swal.fire("Error", error.message, "error");
+        if (error.name !== "AbortError" && isMounted) {
+          Swal.fire("Error", error.message, "error");
+        }
       }
     };
+    
     fetchCrops();
-  }, []);
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, [token]);
 
   const currentUserID = Number(getCurrentUserID());
   const filteredCrops = crops.filter((crop) => crop.farmerID === currentUserID);

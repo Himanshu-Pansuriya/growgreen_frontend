@@ -26,7 +26,6 @@ function CropsPage() {
         }
         const data = await response.json();
 
-        // Artificial delay to show skeleton for at least 1 second
         setTimeout(() => {
           setCrops(data);
           setLoading(false);
@@ -63,7 +62,6 @@ function CropsPage() {
         </div>
         <div className="row g-0 gx-5 align-items-end">
           {loading ? (
-            // Skeleton loader while data is being fetched
             Array.from({ length: 6 }).map((_, index) => (
               <div className="col-4 mt-3" key={index}>
                 <div className="card">
@@ -93,49 +91,65 @@ function CropsPage() {
               </div>
             ))
           ) : crops.length > 0 ? (
-            crops.map((crop, index) => {
-              return (
-                <div className="col-4 mt-3" key={index}>
-                  <div className="card">
-                    <img
-                      src={crop.imageUrl}
-                      className="card-img-top img-fluid crops-img"
-                      alt={crop.cropName || "Crop"}
+            crops.map((crop, index) => (
+              <div className="col-4 mt-3" key={index}>
+                <div className="card">
+                  <img
+                    src={crop.imageUrl}
+                    className="card-img-top img-fluid crops-img"
+                    alt={crop.cropName || "Crop"}
+                    style={{
+                      objectFit: "contain",
+                      height: "200px",
+                      width: "100%",
+                      marginTop: "10px",
+                    }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title-crop">
+                      {crop.cropName} ({crop.cropType ? crop.cropType : ""})
+                    </h5>
+                    <p className="card-text-price">
+                      Price: ₹{crop.pricePer20KG}
+                    </p>
+                    <p className="text-danger quantity">{crop.quantity} kgs</p>
+                    <Button
+                      variant="primary"
+                      size="lg" // Makes the button larger
                       style={{
-                        objectFit: "contain",
-                        height: "200px",
-                        width: "100%",
-                        marginTop: "10px",
+                        padding: "12px 24px",
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                      }} // Custom styles for more size control
+                      onClick={() => {
+                        Swal.fire({
+                          title: "Contact Details",
+                          html: `
+        <p style="font-size: 18px;">
+          📞 <a href="tel:${
+            crop.contactNo
+          }" style="color:blue; text-decoration:underline; font-size: 20px;">
+            ${crop.contactNo}
+          </a>
+        </p>
+        <p style="font-size: 18px;">
+          📍 <a href="https://www.google.com/maps/search/?q=${encodeURIComponent(
+            crop.address
+          )}" target="_blank" style="color:blue; text-decoration:underline; font-size: 20px;">
+            ${crop.address}
+          </a>
+        </p>
+      `,
+                          showCloseButton: true,
+                        });
                       }}
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title-crop">
-                        {crop.cropName}
-                        {" ("}
-                        {crop.cropType ? crop.cropType : ""}
-                        {")"}
-                      </h5>
-                      <p className="card-text-price">
-                        Price: ₹{crop.pricePer20KG}
-                      </p>
-                      <p className="text-danger quantity">
-                        {crop.quantity} kgs
-                      </p>
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          Swal.fire({
-                            titleText: `Contact: ${crop.contactNo} \nAddress: ${crop.address}`,
-                          });
-                        }}
-                      >
-                        Contact
-                      </Button>
-                    </div>
+                    >
+                      Contact
+                    </Button>
                   </div>
                 </div>
-              );
-            })
+              </div>
+            ))
           ) : (
             <div className="col-12">
               <div className="no-crops-box">

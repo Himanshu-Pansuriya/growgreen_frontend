@@ -6,8 +6,8 @@ import LoadingSpinner from "../../../Client/Components/LoadingSpinner/LoadingSpi
 import { getCurrenttoken } from "../../../Client/Components/LoginPage/LoginPage";
 
 function PesticidesForm() {
-  const { id } = useParams(); // Extract the id from the route
-  const navigate = useNavigate(); // For navigation after success
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -19,10 +19,11 @@ function PesticidesForm() {
     imageUrl: null,
   });
 
+  const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
   const token = getCurrenttoken();
 
-  // Fetch data for editing if id exists
   useEffect(() => {
     if (id) {
       setIsLoading(true);
@@ -44,7 +45,7 @@ function PesticidesForm() {
             manufacturedDate: data.manufacturedDate?.split("T")[0] || "",
             expiryDate: data.expiryDate?.split("T")[0] || "",
             description: data.description || "",
-            imageUrl: null, // Image file is not preloaded for security
+            imageUrl: null,
           });
         })
         .catch((error) => {
@@ -55,34 +56,65 @@ function PesticidesForm() {
     }
   }, [id]);
 
-  const handleChange = (e) => {
-    const { id, value, type, files } = e.target;
-    if (type === "file" && files.length > 0) {
-      setFormData((prevState) => ({ ...prevState, [id]: files[0] }));
-    } else {
-      setFormData((prevState) => ({ ...prevState, [id]: value }));
-    }
-  };
+  const validate = () => {
+    const newErrors = {};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (!formData.price || formData.price <= 0) {
+      newErrors.price = "Price must be a positive number.";
+    }
+
+    if (!formData.stock || formData.stock <= 0) {
+      newErrors.stock = "Stock must be a positive number.";
+    }
+
+    if (new Date(formData.manufacturedDate) > new Date()) {
+      newErrors.manufacturedDate = "Manufactured date cannot be in the future.";
+    }
 
     if (
-      !formData.name ||
-      !formData.price ||
-      !formData.stock ||
-      !formData.manufacturedDate ||
-      !formData.expiryDate
+      formData.expiryDate &&
+      new Date(formData.expiryDate) <= new Date(formData.manufacturedDate)
     ) {
-      Swal.fire("Error", "Please fill all required fields", "error");
-      return;
+      newErrors.expiryDate = "Expiry date must be after the manufactured date.";
     }
 
     if (
       formData.imageUrl instanceof File &&
       formData.imageUrl.size > 5 * 1024 * 1024
     ) {
-      Swal.fire("Error", "File size should not exceed 5MB", "error");
+      newErrors.imageUrl = "File size must not exceed 5MB.";
+    }
+
+    if (
+      formData.imageUrl instanceof File &&
+      !["image/jpeg", "image/png"].includes(formData.imageUrl.type)
+    ) {
+      newErrors.imageUrl = "Only JPEG and PNG images are allowed.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { id, value, type, files } = e.target;
+    if (type === "file" && files.length > 0) {
+      const selectedFile = files[0];
+      setFormData((prevState) => ({ ...prevState, [id]: selectedFile }));
+  
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setPreviewImage(imageUrl);
+    } else {
+      setFormData((prevState) => ({ ...prevState, [id]: value }));
+    }
+    setErrors((prevState) => ({ ...prevState, [id]: "" })); // Clear error on change
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validate()) {
+      Swal.fire("Error", "Please fix the errors in the form.", "error");
       return;
     }
 
@@ -100,27 +132,23 @@ function PesticidesForm() {
     }
 
     try {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
       const response = await fetch(
         id
-          ? `http://localhost:5045/api/Pesticide/${id}` // Update endpoint
-          : "http://localhost:5045/api/Pesticide", // Add endpoint
+          ? `http://localhost:5045/api/Pesticide/${id}`
+          : "http://localhost:5045/api/Pesticide",
         {
           method: id ? "PUT" : "POST",
-          headers:{
+          headers: {
             Authorization: `Bearer ${token}`,
-          }, // Use PUT for edit and POST for add
+          },
           body: formDataToSend,
         }
       );
 
-      const contentType = response.headers.get("Content-Type");
-      if (!response.ok || !contentType?.includes("application/json")) {
-        const errorText = await response.text();
-        throw new Error(errorText || "An unexpected error occurred");
+      if (!response.ok) {
+        throw new Error(await response.text());
       }
-
-      const result = await response.json();
 
       Swal.fire(
         "Success",
@@ -132,13 +160,9 @@ function PesticidesForm() {
       navigate("/admin/pesticides");
     } catch (error) {
       console.error("Error submitting form:", error);
-      Swal.fire(
-        "Error",
-        error.message || "An unexpected error occurred",
-        "error"
-      );
+      Swal.fire("Error", "An unexpected error occurred.", "error");
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
@@ -171,6 +195,7 @@ function PesticidesForm() {
             required
           />
         </div>
+
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="price">
             Price
@@ -183,7 +208,9 @@ function PesticidesForm() {
             onChange={handleChange}
             required
           />
+          {errors.price && <p className="error-message text-danger">{errors.price}</p>}
         </div>
+
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="stock">
             Stock
@@ -196,7 +223,9 @@ function PesticidesForm() {
             onChange={handleChange}
             required
           />
+          {errors.stock && <p className="error-message text-danger">{errors.stock}</p>}
         </div>
+
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="manufacturedDate">
             Manufactured Date
@@ -209,7 +238,11 @@ function PesticidesForm() {
             onChange={handleChange}
             required
           />
+          {errors.manufacturedDate && (
+            <p className="error-message text-danger">{errors.manufacturedDate}</p>
+          )}
         </div>
+
         <div className="form-field col-lg-6">
           <label className="label" htmlFor="expiryDate">
             Expiry Date
@@ -222,19 +255,34 @@ function PesticidesForm() {
             onChange={handleChange}
             required
           />
+          {errors.expiryDate && (
+            <p className="error-message text-danger">{errors.expiryDate}</p>
+          )}
         </div>
-        <div className="form-field col-lg-6">
-          <label className="label" htmlFor="imageUrl">
+
+        <div className="form-field col-lg-4">
+          <label className="label" htmlFor="imageFile">
             Image
           </label>
           <input
-            id="imageUrl"
+            id="imageFile"
             className="input-text js-input"
             type="file"
             accept="image/*"
             onChange={handleChange}
           />
         </div>
+        <div className="form-field col-lg-2">   
+        {previewImage && (
+            <img
+            src={previewImage}
+            alt="Preview"
+            className="image-preview"
+            style={{ maxHeight: "80px", marginTop: "10px",maxWidth:"80px" }}
+          />          
+          )}
+          </div>
+
         <div className="form-field col-lg-12">
           <label className="label" htmlFor="description">
             Description
@@ -248,6 +296,7 @@ function PesticidesForm() {
             required
           />
         </div>
+
         <div className="form-field col-lg-6">
           <input className="submit-btn" type="submit" value="Submit" />
         </div>

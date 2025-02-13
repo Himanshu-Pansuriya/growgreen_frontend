@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./Client/Components/HomePage/HomePage";
 import LoginPage from "./Client/Components/LoginPage/LoginPage";
@@ -36,6 +36,26 @@ function AppContent() {
 
   // Mock: Replace this with actual admin check (e.g., context or API validation)
   const isAdmin = localStorage.getItem("role") === "Admin"; 
+
+  const elementRef = useRef(null);
+
+  const removeElement = () => {
+    const element = document.getElementById('myElement');
+    if (element && element.parentNode) {
+      element.parentNode.removeChild(element);
+    }
+  };
+
+  useEffect(() => {
+    const element = document.createElement('div');
+    document.body.appendChild(element);
+
+    return () => {
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      }
+    };
+  }, []);
 
   return (
     <>
