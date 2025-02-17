@@ -59,6 +59,9 @@ function Navbar() {
                 <Link to={"/crop"} className="nav-item nav-link">
                   Crop
                 </Link>
+                <Link to={"/croppredict"} className="nav-item nav-link">
+                  Predict Crop
+                </Link>
                 <Link to={"/contact"} className="nav-item nav-link">
                   Contact
                 </Link>

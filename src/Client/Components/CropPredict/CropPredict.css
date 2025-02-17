@@ -1,0 +1,100 @@
+/* Reset & General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Container */
+  .crop-container {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+  }
+  
+  /* Form Box */
+  .crop-form-box {
+    background: white;
+    margin-top: 20px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 650px; /* Increased width */
+    text-align: center;
+  }
+  
+  h2 {
+    color: #1e5631;
+    margin-bottom: 15px;
+  }
+  
+  /* Horizontal Fields Container */
+  .crop-fields-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  /* Input Fields */
+  .crop-input-group {
+    flex: 1 1 48%; /* Ensures two fields per row */
+    min-width: 250px;
+    text-align: left;
+  }
+  
+  label {
+    font-size: 14px;
+    color: #444;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .range-indicator {
+    font-size: 12px;
+    color: #666;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+  
+  input:focus {
+    border-color: #28a745;
+    outline: none;
+  }
+  
+  /* Submit Button */
+  .crop-submit-btn {
+    width: 100%;
+    background: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 15px;
+  }
+  
+  .crop-submit-btn:hover {
+    background: #218838;
+  }
+  
+  /* Prediction Box */
+  .crop-prediction-box {
+    background: #c3e6cb;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+  }

@@ -28,6 +28,7 @@ import PaymentSuccessPage from "./Client/Components/Pesticides/PaymentSuccessPag
 import PesticidesTransaction from "./Client/Components/Pesticides/PesticidesTransaction.jsx";
 import ScrollToTop from "./Client/Components/ScrollToTop.jsx";
 import Transactions from "./Admin/Components/Transactions/Transactions.jsx";
+import CropPredict from "./Client/Components/CropPredict/CropPredict.jsx";
 
 function AppContent() {
   const location = useLocation();
@@ -73,6 +74,7 @@ function AppContent() {
         <Route path="/mycrops" element={<MyCrops />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faqs" element={<FAQsPage />} />
+        <Route path="/croppredict" element={<CropPredict />} />
         <Route path="/pesticidesdescription/:id?" element={<PesticidesDescription />} />
         <Route path="/pesticidestransaction" element={<PesticidesTransaction />} />
         <Route path="/paymentsuccess" element={<PaymentSuccessPage />} />

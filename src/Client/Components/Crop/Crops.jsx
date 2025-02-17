@@ -124,22 +124,21 @@ function CropsPage() {
                       onClick={() => {
                         Swal.fire({
                           title: "Contact Details",
-                          html: `
-        <p style="font-size: 18px;">
-          📞 <a href="tel:${
-            crop.contactNo
-          }" style="color:blue; text-decoration:underline; font-size: 20px;">
-            ${crop.contactNo}
-          </a>
-        </p>
-        <p style="font-size: 18px;">
-          📍 <a href="https://www.google.com/maps/search/?q=${encodeURIComponent(
-            crop.address
-          )}" target="_blank" style="color:blue; text-decoration:underline; font-size: 20px;">
-            ${crop.address}
-          </a>
-        </p>
-      `,
+                          html: `<p style="font-size: 18px;">
+                                  📞 <a href="tel:${
+                                    crop.contactNo
+                                  }" style="color:blue; text-decoration:underline; font-size: 20px;">
+                                    ${crop.contactNo}
+                                  </a>
+                                </p>
+                                <p style="font-size: 18px;">
+                                  📍 <a href="https://www.google.com/maps/search/?q=${encodeURIComponent(
+                                    crop.address
+                                  )}" target="_blank" style="color:blue; text-decoration:underline; font-size: 20px;">
+                                    ${crop.address}
+                                  </a>
+                                </p>
+                              `,
                           showCloseButton: true,
                         });
                       }}
